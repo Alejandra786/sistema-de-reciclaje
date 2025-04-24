@@ -14,7 +14,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Sistema de reciclaje')
-    .setDescription('Sistema de reciclaje API')
+    .setDescription(
+      'API REST para el sistema de reciclaje que permite la gestión integral de usuarios, puntos de reciclaje, materiales reciclables, impactos ambientales, recompensas, roles y permisos. Proporciona endpoints seguros para realizar operaciones CRUD, registrar acciones ecológicas y facilitar procesos de canje mediante un sistema de puntos acumulados por reciclaje.',
+    )    
     .setVersion('1.0')
     .addBearerAuth()
     .build();
