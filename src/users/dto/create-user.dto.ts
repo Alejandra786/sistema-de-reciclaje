@@ -23,7 +23,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MaxLength(30)
   @ApiProperty({
-    example: 'string',
+    example: '',
     description: NAME_FIELD,
     maxLength: 30,
     required: true,
@@ -34,7 +34,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MaxLength(30)
   @ApiProperty({
-    example: 'string',
+    example: '',
     description: SURNAME_FIELD,
     maxLength: 30,
     required: true,
@@ -46,7 +46,7 @@ export class CreateUserDto {
   @IsEmail()
   @MaxLength(60)
   @ApiProperty({
-    example: 'string',
+    example: '',
     description: EMAIL_FIELD,
     maxLength: 60,
     required: true,
@@ -57,7 +57,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MaxLength(20)
   @ApiProperty({
-    example: 'string',
+    example: '',
     description: PASSWORD_FIELD,
     maxLength: 20,
     required: true,
@@ -68,7 +68,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MaxLength(20)
   @ApiProperty({
-    example: 'string',
+    example: '',
     description: PHONE_FIELD,
     maxLength: 20,
   })

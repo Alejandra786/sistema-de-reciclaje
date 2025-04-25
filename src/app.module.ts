@@ -4,19 +4,19 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { RecompensasModule } from './recompensas/recompensas.module';
-import { DescuentosModule } from './descuentos/descuentos.module';
-import { CanjesModule } from './canjes/canjes.module';
-import { UsuarioRolesModule } from './usuario-roles/usuario-roles.module';
+import { RewardsModule } from './rewards/recompensas.module';
+import { SwapsModule } from './swaps/canjes.module';
+import { UserRolesModule } from './user-roles/usuario-roles.module';
 import { RolesModule } from './roles/roles.module';
-import { ImpactosAmbientalesModule } from './impactos-ambientales/impactos-ambientales.module';
-import { ListasMaterialesModule } from './listas-materiales/listas-materiales.module';
-import { ReciclajesModule } from './reciclajes/reciclajes.module';
-import { PuntajesModule } from './puntajes/puntajes.module';
-import { DonacionesModule } from './donaciones/donaciones.module';
-import { RecyclingPointsModule } from './puntos-reciclajes/puntos-reciclajes.module';
-import { TiposMaterialesModule } from './tipos-materiales/tipos-materiales.module';
-import { PuntoTiposMaterialesModule } from './punto-tipos-materiales/punto-tipos-materiales.module';
+import { EnvironmentalImpactsModule } from './environmental-impacts/impactos-ambientales.module';
+import { MaterialListsControllersModule } from './materials-list/listas-materiales.module';
+import { RecyclingModule } from './recycling/reciclajes.module';
+import { ScoresModule } from './scores/puntajes.module';
+import { DonationsModule } from './donations/donaciones.module';
+import { RecyclingPointsModule } from './recycling-points/puntos-reciclajes.module';
+import { MaterialTypesModule } from './materials-types/tipos-materiales.module';
+import { PointMaterialTypesControllersModule } from './points-materials-types/punto-tipos-materiales.module';
+import { DiscountModule } from './discounts/descuentos.module';
 
 @Module({
   imports: [
@@ -37,19 +37,19 @@ import { PuntoTiposMaterialesModule } from './punto-tipos-materiales/punto-tipos
       autoLoadEntities: true,
     }),
     UsersModule,
-    RecompensasModule,
-    DescuentosModule,
-    CanjesModule,
-    UsuarioRolesModule,
+    RewardsModule,
+    SwapsModule,
+    UserRolesModule,
     RolesModule,
-    ImpactosAmbientalesModule,
-    ListasMaterialesModule,
-    ReciclajesModule,
-    PuntajesModule,
-    DonacionesModule,
+    EnvironmentalImpactsModule,
+    MaterialListsControllersModule,
+    RecyclingModule,
+    ScoresModule,
+    DonationsModule,
     RecyclingPointsModule,
-    TiposMaterialesModule,
-    PuntoTiposMaterialesModule,
+    MaterialTypesModule,
+    PointMaterialTypesControllersModule,
+    DiscountModule,
   ],
   controllers: [AppController],
   providers: [AppService],
