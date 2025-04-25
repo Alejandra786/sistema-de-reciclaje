@@ -6,18 +6,18 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
-const ENTITY_NAME = 'user';
-const CAPITALIZED_ENTITY_NAME =
-  ENTITY_NAME.charAt(0).toUpperCase() + ENTITY_NAME.slice(1);
-const ERROR_PREFIX = 'Failed to ';
-const ERROR_CREATE_USER = ERROR_PREFIX + 'create ' + ENTITY_NAME;
-const ERROR_FETCH_USERS = ERROR_PREFIX + 'fetch ' + +ENTITY_NAME + 's';
-const ERROR_USER_NOT_FOUND = CAPITALIZED_ENTITY_NAME + ' not found';
-const ERROR_FETCH_USER = ERROR_PREFIX + 'fetch ' + ENTITY_NAME;
-const ERROR_UPDATE_USER = ERROR_PREFIX + 'update ' + ENTITY_NAME;
-const ERROR_DELETE_USER = ERROR_PREFIX + 'delete ' + ENTITY_NAME;
-const ERROR_USER_NOT_FOUND_OR_DELETED =
-  ERROR_USER_NOT_FOUND + ' or already deleted';
+const ENTITY = 'user';
+const ENTITY_CAPITALIZED = 'User';
+
+const ERRORS = {
+  CREATE: `Failed to create ${ENTITY}.`,
+  FETCH_ALL: `Failed to fetch ${ENTITY}s.`,
+  FETCH_ONE: `Failed to fetch ${ENTITY}.`,
+  UPDATE: `Failed to update ${ENTITY}.`,
+  DELETE: `Failed to delete ${ENTITY}.`,
+  NOT_FOUND: `${ENTITY_CAPITALIZED} not found.`,
+  NOT_FOUND_OR_DELETED: `${ENTITY_CAPITALIZED} not found or already deleted.`,
+};
 
 @Injectable()
 export class UsersService {
@@ -28,6 +28,14 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
+      const existingUser = await this.userRepository.findOne({
+        where: { correo: createUserDto.correo },
+      });
+
+      if (existingUser) {
+        throw new NotFoundException('Correo ya está registrado.');
+      }
+
       const full_name = createUserDto.nombre + ' ' + createUserDto.apellido;
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(createUserDto.contraseña, salt);
@@ -42,7 +50,8 @@ export class UsersService {
 
       return await this.userRepository.save(user);
     } catch (error) {
-      throw new NotFoundException(ERROR_CREATE_USER);
+      console.log(error);
+      throw new NotFoundException(ERRORS.CREATE);
     }
   }
 
@@ -52,7 +61,7 @@ export class UsersService {
         where: { fecha_eliminación: IsNull() },
       });
     } catch (error) {
-      throw new NotFoundException(ERROR_FETCH_USERS);
+      throw new NotFoundException(ERRORS.FETCH_ALL);
     }
   }
 
@@ -63,11 +72,11 @@ export class UsersService {
       });
 
       if (!user) {
-        throw new NotFoundException(ERROR_USER_NOT_FOUND);
+        throw new NotFoundException(ERRORS.NOT_FOUND);
       }
       return user;
     } catch (error) {
-      throw new NotFoundException(ERROR_FETCH_USER);
+      throw new NotFoundException(ERRORS.FETCH_ONE);
     }
   }
 
@@ -78,14 +87,14 @@ export class UsersService {
       });
 
       if (!existing) {
-        throw new NotFoundException(ERROR_USER_NOT_FOUND_OR_DELETED);
+        throw new NotFoundException(ERRORS.NOT_FOUND_OR_DELETED);
       }
 
       const updated = this.userRepository.merge(existing, updateUserDto);
 
       return await this.userRepository.save(updated);
     } catch (error) {
-      throw new NotFoundException(ERROR_UPDATE_USER);
+      throw new NotFoundException(ERRORS.UPDATE);
     }
   }
 
@@ -96,13 +105,13 @@ export class UsersService {
       });
 
       if (!user) {
-        throw new NotFoundException(ERROR_USER_NOT_FOUND_OR_DELETED);
+        throw new NotFoundException(ERRORS.NOT_FOUND_OR_DELETED);
       }
       user.fecha_eliminación = new Date();
 
       return await this.userRepository.save(user);
     } catch (error) {
-      throw new NotFoundException(ERROR_DELETE_USER);
+      throw new NotFoundException(ERRORS.DELETE);
     }
   }
 }
